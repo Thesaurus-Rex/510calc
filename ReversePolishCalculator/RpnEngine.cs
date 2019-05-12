@@ -21,9 +21,11 @@ namespace ReversePolishCalculator
         public void CalculateRpn()
         {
             _stack.Clear();
-            var input = Console.ReadLine();
+            //NOT CONSOLE INPUT MAKE FAKE WITH OPTIONS
+             var input = Console.ReadLine(); 
             _log.Trace(input);
             var rpnTokens = input.Split(' ');
+            string op="%";  
 
             foreach (var rpnToken in rpnTokens)
             {
@@ -31,8 +33,9 @@ namespace ReversePolishCalculator
                 if (decimal.TryParse(rpnToken, out decimal number))
                 { _stack.Push(number); }
                 else
-                {
-                    switch (rpnToken)
+                { op = rpnToken; }
+            }
+                    switch (op)
                     {
                         case "^":
                             var stackNumber = _stack.Pop();
@@ -53,15 +56,15 @@ namespace ReversePolishCalculator
                             _stack.Push(_calculator.Subtract(_stack.Pop(), stackNumber));
                             break;
                         default:
-                            var message = $"Could not parse [{rpnToken}]";
+                            var message = $"Could not parse [{op}]";
                             _log.Fatal(message);
-                            throw new ArgumentException(message, nameof(rpnToken));
+                            throw new ArgumentException(message, nameof(op));
                     }
-                }
-            }
+                            
 
             var result = _stack.Pop();
             _log.Debug($"Result of calculation is [{result}]");
+            //NOT WRITE TO CONSOLE MAKE OUTPUT OPTIONS FAKE 
             Console.WriteLine(result);
         }
     }
