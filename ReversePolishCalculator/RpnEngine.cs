@@ -8,7 +8,6 @@ namespace ReversePolishCalculator
     {
         private readonly Stack<decimal> _stack;
         private readonly Calculator _calculator;
-
         private Logger _log;
 
         public RpnEngine()
@@ -18,12 +17,23 @@ namespace ReversePolishCalculator
             _log = new Logger(eLogLevel.Debug);
         }
 
-        public void CalculateRpn()
+        public RpnEngine(Logger fake_log, Calculator fake_calc) //with args
         {
+            _stack = new Stack<decimal>();
+            _calculator = fake_calc;
+            _log = fake_log;
+        }
+                               
+        public void CalculateRpn(string arg ="NOPE")
+        {
+            if (arg == "NOPE")
+                arg = System.Console.ReadLine();
+
+            var input = arg;
             _stack.Clear();
-            //NOT CONSOLE INPUT MAKE FAKE WITH OPTIONS
-             var input = Console.ReadLine(); 
             _log.Trace(input);
+
+
             var rpnTokens = input.Split(' ');
             string op="%";  
 
